@@ -100,6 +100,13 @@ function promptUser() {
   var passwordCriteria1 = prompt(
     "How many characters do you want your password to be? (Minimum 8 and Max 128 required)"
   );
+  if (7 < passwordLength && passwordLength < 129) {
+    console.log("Password Length Accepted!");
+  } else {
+    console.log(
+      "Password Length Failed, please enter a number between 8 and 128"
+    );
+  }
   var passwordLength = Number(passwordCriteria1);
   var passwordCriteria2 = confirm(
     "Character Type 1: Do you want lowercase letters in your password?"
@@ -113,17 +120,6 @@ function promptUser() {
   var passwordCriteria5 = confirm(
     "Character Type 4: Do you want special characters in your password?"
   );
-  if (
-    7 < passwordLength < 129 &&
-    passwordCriteria2 &&
-    passwordCriteria3 &&
-    passwordCriteria4 &&
-    passwordCriteria5
-  ) {
-    console.log("maximum security password!");
-  } else {
-    console.log("password securtiy criteria not met, please try again!");
-  }
   var responses = {
     length: passwordLength,
     lowercase: passwordCriteria2,
@@ -135,12 +131,13 @@ function promptUser() {
 }
 
 // 2. Validate the input .
+
 // 3. Generate password based on criteria
 // 4. Display the generated password on the page
 
 function generatePassword() {
   var userInput = promptUser();
-  console.log(test);
+  console.log(userInput);
 }
 
 // for (i= 8; <=passwordCriteria1; ++){
