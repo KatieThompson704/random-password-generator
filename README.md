@@ -26,6 +26,9 @@ SO THAT I can create a strong password that provides greater securit
 
 ## Usage
 
-Access the application here:
+Access the application here: https://katiethompson704.github.io/random-password-generator/
 
 See below for screenshots of the deployed application:
+![pwgscreenshot1](./assets/pwgscreenshot1.png)
+![pwgscreenshot2](./assets/pwgscreenshot2.png)
+![pwgscreenshot3](./assets/pwgscreenshot3.png)
