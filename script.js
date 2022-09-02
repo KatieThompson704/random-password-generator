@@ -1,4 +1,3 @@
-// Assignment Code
 var generateBtn = document.querySelector("#generate");
 var lowercaseArray = [
   "a",
@@ -66,7 +65,8 @@ var specialCharArray = [
   "%",
   "&",
   "'",
-  "()",
+  "(",
+  ")",
   "*",
   "+",
   ",",
@@ -97,58 +97,112 @@ var specialCharArray = [
 // 1b. User CONFIRMS: lowercase, uppercase, numbers, special characters
 
 function promptUser() {
-  var passwordCriteria1 = prompt(
+  var lengthPrompt = prompt(
     "How many characters do you want your password to be? (Minimum 8 and Max 128 required)"
   );
-  if (7 < passwordLength && passwordLength < 129) {
-    console.log("Password Length Accepted!");
-  } else {
-    console.log(
-      "Password Length Failed, please enter a number between 8 and 128"
-    );
+  if (!lengthPrompt) {
+    return null;
   }
-  var passwordLength = Number(passwordCriteria1);
-  var passwordCriteria2 = confirm(
-    "Character Type 1: Do you want lowercase letters in your password?"
-  );
-  var passwordCriteria3 = confirm(
-    "Character Type 2: Do you want UPPERCASE letters in your password?"
-  );
-  var passwordCriteria4 = confirm(
-    "Character Type 3: Do you want numeric characters in your password?"
-  );
-  var passwordCriteria5 = confirm(
-    "Character Type 4: Do you want special characters in your password?"
-  );
+  var passwordLength = Number(lengthPrompt);
+
+  if (passwordLength >= 8 && passwordLength <= 128) {
+    // LOWERCASE prompt
+    var lowerPrompt = confirm(
+      "Character Type 1: Do you want lowercase letters in your password?"
+    );
+    // UPPERCASE prompt
+    var upperPrompt = confirm(
+      "Character Type 2: Do you want UPPERCASE letters in your password?"
+    );
+    // NUMBER prompt
+    var numberPrompt = confirm(
+      "Character Type 3: Do you want numeric characters in your password?"
+    );
+    // SPECIAL prompt
+    var specialPrompt = confirm(
+      "Character Type 4: Do you want special characters in your password?"
+    );
+  } else {
+    alert("Input not valid. Please enter an integer between 8 and 128");
+    return generatePassword();
+  }
+
   var responses = {
     length: passwordLength,
-    lowercase: passwordCriteria2,
-    uppercase: passwordCriteria3,
-    numeric: passwordCriteria4,
-    special: passwordCriteria5,
+    lowercase: lowerPrompt,
+    uppercase: upperPrompt,
+    numeric: numberPrompt,
+    special: specialPrompt,
   };
   return responses;
 }
 
-// 2. Validate the input .
+//Validate user selected at least one character type
+function validateResponses(userInput) {
+  console.log("User input variable from checkPassword function:");
+  console.log(userInput);
+  if (
+    !userInput.lowercase &&
+    !userInput.uppercase &&
+    !userInput.numeric &&
+    !userInput.special
+  ) {
+    alert("Please Select At Least One Type of Character");
+    generatePassword();
+  }
+}
+// Combine character arrays into one single array. These serve as the options passed in password
 
-// 3. Generate password based on criteria
-// 4. Display the generated password on the page
+function handleConfirmations(userInput) {
+  var charOptions = [];
+  if (userInput.lowercase) {
+    charOptions = charOptions.concat(lowercaseArray);
+    console.log(charOptions);
+  }
+  if (userInput.uppercase) {
+    charOptions = charOptions.concat(uppercaseArray);
+    console.log(charOptions);
+  }
+  if (userInput.numeric) {
+    charOptions = charOptions.concat(numericCharArray);
+    console.log(charOptions);
+  }
+  if (userInput.special) {
+    charOptions = charOptions.concat(specialCharArray);
+    console.log(charOptions);
+  }
+
+  console.log("Final character array: ");
+  console.log(charOptions);
+  return charOptions;
+}
+
+// Generate password based on criteria
+
+function createPassword(userInput, charOptions) {
+  var newPassword = "";
+  for (i = 0; i < userInput.length; i++) {
+    let randomChar =
+      charOptions[Math.floor(Math.random() * charOptions.length)];
+    newPassword = newPassword + randomChar;
+  }
+  console.log(newPassword);
+  return newPassword;
+}
 
 function generatePassword() {
   var userInput = promptUser();
   console.log(userInput);
+  validateResponses(userInput);
+  var charOptions = handleConfirmations(userInput);
+  var newPassword = createPassword(userInput, charOptions);
+  return newPassword;
 }
-
-// for (i= 8; <=passwordCriteria1; ++){
-//   console.log("This is the current value of passwordCriteria1: " + passwordCriteria1 +".");
-// }
 
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-
   passwordText.value = password;
 }
 
